@@ -1,16 +1,24 @@
 pipeline {
     agent any
 
+    tools {
+        jdk 'JAVA_HOME'
+        maven 'M2_HOME'
+    }
+
     stages {
-        stage('Checkout') {
+
+        stage('GIT') {
             steps {
-                git branch: 'main', url: 'https://github.com/medhbib07/med-hbib-twin8.git'
+                git branch: 'master', url: 'https://github.com/medhbib07/med-hbib-twin8.git'
             }
         }
-        stage('Build') {
+
+        stage('Compile Stage') {
             steps {
-                sh './mvnw compile'
+                sh 'mvn clean compile'
             }
         }
+
     }
 }

@@ -1,11 +1,6 @@
 pipeline {
     agent any
-
-    tools {
-        jdk 'JAVA_HOME'
-        maven 'M2_HOME'
-    }
-
+    
     stages {
         stage('GIT') {
             steps {
@@ -18,21 +13,26 @@ pipeline {
                 sh 'mvn clean package'
             }
         }
+
         stage('Build image') {
             steps {
                 sh 'docker build -t medhbib07/med-hbib-twin8:latest .'
             }
         }
+
         stage('Login') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'dockerhub-medhbib07', passwordVariable: 'dckr_pat_odpynls-t1ZlEoGLXtqH2JKL0pY', usernameVariable: 'hbibworld')]) {
-                    sh 'echo $dckr_pat_odpynls-t1ZlEoGLXtqH2JKL0pY | docker login -u $hbibworld --password-stdin'
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-medhbib07',
+                    passwordVariable: 'DOCKER_PASSWORD',
+                    usernameVariable: 'DOCKER_USERNAME')]) {
+                    sh 'echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin'
                 }
             }
         }
+
         stage('Push image') {
             steps {
-                 sh 'docker push hbibworld/med-hbib-twin8:latest'
+                sh 'docker push medhbib07/med-hbib-twin8:latest'
             }
         }
     }

@@ -16,7 +16,7 @@ pipeline {
 
         stage('Build image') {
             steps {
-                sh 'docker build -t medhbib07/med-hbib-twin8:latest .'
+                sh 'docker build -t hbibworld/med-hbib-twin8:latest .'
             }
         }
 
@@ -32,7 +32,7 @@ pipeline {
 
         stage('Push image') {
             steps {
-                sh 'docker push medhbib07/med-hbib-twin8:latest'
+                sh 'docker push hbibworld/med-hbib-twin8:latest'
             }
         }
     }

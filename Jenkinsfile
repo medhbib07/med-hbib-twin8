@@ -23,7 +23,7 @@ pipeline {
                     sh """
                         mvn sonar:sonar \
                         -Dsonar.projectKey=med-hbib-twin8 \
-                        -Dsonar.host.url=http://192.168.1.14:9000 \
+                        -Dsonar.host.url=http://localhost:9000 \
                         -Dsonar.login=$SONAR_AUTH_TOKEN
                     """
                 }

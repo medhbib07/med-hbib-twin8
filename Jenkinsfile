@@ -13,6 +13,22 @@ pipeline {
                 sh 'mvn clean package -DskipTests'
             }
         }
+        
+        stage('SonarQube Analysis') {
+            environment {
+                SONAR_SCANNER_OPTS = "-Xmx1024m"
+            }
+            steps {
+                withSonarQubeEnv('MySonar') {  
+                    sh """
+                        mvn sonar:sonar \
+                        -Dsonar.projectKey=med-hbib-twin8 \
+                        -Dsonar.host.url=http://localhost:9000 \
+                        -Dsonar.login=$SONAR_AUTH_TOKEN
+                    """
+                }
+            }
+        }
 
         stage('Build image') {
             steps {
